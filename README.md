@@ -103,7 +103,6 @@ title('Butterworth Highpass IIR Filter Frequency Response');
 ```
 
 ## OUTPUT (LPF) : 
-<img width="813" height="1135" alt="image" src="https://github.com/user-attachments/assets/a02cf4ca-59b0-4e02-b66a-10644c41c04b" />
 
 <img width="928" height="884" alt="image" src="https://github.com/user-attachments/assets/1ebdff1b-fc0c-4962-a01f-7542e0f26964" />
 

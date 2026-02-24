@@ -62,56 +62,44 @@ title(' Frequency Response of Butterworth IIR LPF');
 
 ## PROGRAM (HPF): 
 ```
-clc;
+
 clear;
+clc;
 close;
 
-wp = input('Enter the pass band frequency (Radians )= ');
-ws = input('Enter the stop band frequency (Radians )= ');
-alphap = input('Enter the pass band attenuation (dB)= ');
-alphas = input('Enter the stop band attenuation (dB)= ');
-T = input('Enter the Value of sampling Time=');
+wp=input('Enter the pass band frequency (Radians )= ' ); 
+ws=input('Enter the stop band frequency (Radians )= ' ); 
+alphap=input( ' Enter the pass band attenuation (dB)=' ); 
+alphas=input( ' Enter the stop band attenuation(dB)=' ); 
+T=input('Enter the Value of sampling Time=');
 
-omegap = (2/T)*tan(wp/2);
-disp(omegap, 'omegap=');
-omegas = (2/T)*tan(ws/2);
-disp(omegas, 'omegas=');
+omegap = (2/T) * tan(wp/2);
+omegas = (2/T) * tan(ws/2);
 
-N = log10(((10^(0.1*alphas))-1)/((10^(0.1*alphap))-1))/(2*log10(omegap/omegas));
-disp(N, 'N=');
+N = log10( ((10^(0.1*alphas))-1) / ((10^(0.1*alphap))-1) ) / (2*log10(omegas/omegap));
 N = ceil(N);
-disp(N, 'Round off value of N=');
 
-omegac = omegas/(((10^(0.1*alphas)) -1)^(1/(2* N)));
-disp(omegac, 'omegac=');
+omegac = omegap / ((10^(0.1*alphap)-1)^(1/(2*N)));
 
-disp('Normalized Analog LPF Transfer function H(s)=');
-hs_Normalised = analpf(N,'butt',[0,0],1);
-disp(hs_Normalised);
 
-disp('Analog LPF Transfer function H(s)=');
-hs = analpf(N,'butt',[0,0],omegac);
-disp(hs);
+hs = analpf(N, 'butt', [0, 0], omegac);
 
-s = poly(0,'s');
-hs_hp = horner(hs, (omegac^2)/s);  
 
-disp('Analog HPF Transfer function H(s)=');
-disp(hs_hp);
+s = poly(0, 's');
+h_analog_hpf = horner(hs, omegac ./ s);
 
-z = poly(0,'z');
-Hz = horner(hs_hp, (2/T)*((z - 1)/(z + 1)));
 
-disp('Digital HPF Transfer function H(z)=');
-disp(Hz);
-HW = frmag(Hz,512);
+z = poly(0, 'z');
+Hz = horner(h_analog_hpf, (2/T)*((z-1)./(z+1)));
+
+
+Hw = frmag(Hz, 512);
 w = 0:%pi/511:%pi;
-
-plot(w/%pi, abs(HW));
+plot(w/%pi, abs(Hw));
 xlabel('Normalized Digital Frequency (×π rad/sample)');
 ylabel('Magnitude');
-title('Frequency Response of Butterworth IIR High-pass Filter');
-xgrid();
+title('Butterworth Highpass IIR Filter Frequency Response');
+
 ```
 
 ## OUTPUT (LPF) : 
@@ -120,7 +108,7 @@ xgrid();
 <img width="928" height="884" alt="image" src="https://github.com/user-attachments/assets/1ebdff1b-fc0c-4962-a01f-7542e0f26964" />
 
 ## OUTPUT (HPF) : 
-<img width="873" height="684" alt="image" src="https://github.com/user-attachments/assets/94024cff-126f-4778-ab30-8b6da40e4420" />
+<img width="941" height="1116" alt="image" src="https://github.com/user-attachments/assets/75644e36-fedb-4624-ac0d-d3c312a589d2" />
 
 ## RESULT: 
 Thus, design of Butterworth Low pass and High pass IIR filter waveforms were plotted and output was verified.
